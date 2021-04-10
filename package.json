@@ -1,5 +1,5 @@
 {
-  "name": "eslint-gha-formatter",
+  "name": "eslint-formatter-gha",
   "version": "1.0.1",
   "main": "dist/index.js",
   "scripts": {
@@ -12,6 +12,8 @@
     "eslint",
     "formatter",
     "eslint formatter",
+    "eslint-formatter",
+    "eslintformatter",
     "matcher",
     "GitHub Actions",
     "actions",
