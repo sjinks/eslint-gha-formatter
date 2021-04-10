@@ -1,0 +1,50 @@
+{
+  "name": "eslint-gha-formatter",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "eslint",
+    "formatter",
+    "eslint formatter",
+    "matcher",
+    "GitHub Actions",
+    "actions",
+    "github"
+  ],
+  "author": "Volodymyr Kolesnykov <volodymyr@wildwolf.name> (https://wildwolf.name/)",
+  "license": "MIT",
+  "devDependencies": {
+    "@myrotvorets/eslint-config-myrotvorets-ts": "^2.2.5",
+    "@types/eslint": "^7.2.9",
+    "@types/node": "^14.14.37",
+    "@typescript-eslint/eslint-plugin": "^4.14.2",
+    "eslint": "^7.24.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jest": "^24.1.3",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-sonarjs": "^0.6.0",
+    "prettier": "^2.2.1",
+    "typescript": "^4.1.3"
+  },
+  "dependencies": {
+    "@actions/core": "^1.2.6"
+  },
+  "peerDependencies": {
+    "eslint": "^7.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sjinks/eslint-gha-formatter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sjinks/eslint-gha-formatter/issues"
+  },
+  "homepage": "https://github.com/sjinks/eslint-gha-formatter#readme",
+  "description": "ESLint formatter for GitHub Actions"
+}
