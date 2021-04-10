@@ -73,19 +73,19 @@ jobs:
             registry_url: https://registry.npmjs.org/
     steps:
       - name: Set up Node.js environment
-        if: github.event.inputs[matrix.registry] == 'yes'
+        if: github.event.inputs[matrix.registry] == 'yes' || github.event_name == 'release'
         uses: actions/setup-node@v2.1.5
         with:
           registry-url: ${{ matrix.registry_url }}
 
       - name: Download tarball
-        if: github.event.inputs[matrix.registry] == 'yes'
+        if: github.event.inputs[matrix.registry] == 'yes' || github.event_name == 'release'
         uses: actions/download-artifact@v2
         with:
           name: package
 
       - name: Publish package
-        if: github.event.inputs[matrix.registry] == 'yes'
+        if: github.event.inputs[matrix.registry] == 'yes' || github.event_name == 'release'
         run: npm publish *.tgz
         env:
           NODE_AUTH_TOKEN: ${{ secrets[matrix.secret] }}
