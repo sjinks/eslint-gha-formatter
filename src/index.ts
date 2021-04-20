@@ -3,6 +3,8 @@ import { issueCommand } from '@actions/core/lib/command';
 import { ESLint, Linter } from 'eslint';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const stylish = require('eslint/lib/cli-engine/formatters/stylish') as ESLint.Formatter['format'];
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const json = require('eslint/lib/cli-engine/formatters/json') as ESLint.Formatter['format'];
 
 type SeverityMap = { [key in Linter.Severity]: string };
 
@@ -41,6 +43,10 @@ function hookStdout(
 const format: ESLint.Formatter['format'] = (results: ESLint.LintResult[], data?: ESLint.LintResultData): string => {
     if (process.env.GITHUB_ACTIONS !== 'true') {
         return stylish(results, data);
+    }
+
+    if (process.env.SONARSCANNER === 'true') {
+        return json(results, data);
     }
 
     startGroup('ESLint Annotations');
