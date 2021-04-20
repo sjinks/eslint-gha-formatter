@@ -2,7 +2,7 @@ import { startGroup, endGroup } from '@actions/core';
 import { issueCommand } from '@actions/core/lib/command';
 import { ESLint, Linter } from 'eslint';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const stylish = require('eslint/lib/cli-engine/formatters/stylish') as (results: ESLint.LintResult[]) => string;
+const stylish = require('eslint/lib/cli-engine/formatters/stylish') as ESLint.Formatter['format'];
 
 type SeverityMap = { [key in Linter.Severity]: string };
 
@@ -38,39 +38,37 @@ function hookStdout(
     };
 }
 
-const GitHubActionsFormatter: ESLint.Formatter = {
-    format: (results: ESLint.LintResult[]): string => {
-        if (process.env.GITHUB_ACTIONS !== 'true') {
-            return stylish(results);
-        }
+const format: ESLint.Formatter['format'] = (results: ESLint.LintResult[], data?: ESLint.LintResultData): string => {
+    if (process.env.GITHUB_ACTIONS !== 'true') {
+        return stylish(results, data);
+    }
 
-        startGroup('ESLint Annotations');
+    startGroup('ESLint Annotations');
 
-        let result = '';
-        const unhook = hookStdout((_orig, s, encoding, cb): boolean => {
-            const callback = typeof encoding === 'function' ? encoding : cb;
+    let result = '';
+    const unhook = hookStdout((_orig, s, encoding, cb): boolean => {
+        const callback = typeof encoding === 'function' ? encoding : cb;
 
-            result += s.toString();
-            callback?.();
-            return true;
+        result += s.toString();
+        callback?.();
+        return true;
+    });
+
+    results.forEach(({ filePath, messages }) => {
+        messages.forEach(({ message, severity, line, column }: Linter.LintMessage) => {
+            const properties: AnnotationProps = {
+                file: filePath,
+                line: `${line}`,
+                col: `${column}`,
+            };
+
+            issueCommand(severities[severity], properties, message);
         });
+    });
 
-        results.forEach(({ filePath, messages }) => {
-            messages.forEach(({ message, severity, line, column }: Linter.LintMessage) => {
-                const properties: AnnotationProps = {
-                    file: filePath,
-                    line: `${line}`,
-                    col: `${column}`,
-                };
-
-                issueCommand(severities[severity], properties, message);
-            });
-        });
-
-        endGroup();
-        unhook();
-        return result;
-    },
+    endGroup();
+    unhook();
+    return result;
 };
 
-export = GitHubActionsFormatter.format;
+export = format;
