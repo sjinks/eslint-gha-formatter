@@ -1,3 +1,4 @@
+import { writeFileSync } from 'fs';
 import { startGroup, endGroup } from '@actions/core';
 import { issueCommand } from '@actions/core/lib/command';
 import { ESLint, Linter } from 'eslint';
@@ -46,7 +47,13 @@ const format: ESLint.Formatter['format'] = (results: ESLint.LintResult[], data?:
     }
 
     if (process.env.SONARSCANNER === 'true') {
-        return json(results, data);
+        const result = json(results, data);
+        if (process.env.GITHUB_WORKSPACE) {
+            writeFileSync(`${process.env.GITHUB_WORKSPACE}/eslint-report.json`, result, { encoding: 'utf-8' });
+            return '';
+        }
+
+        return result;
     }
 
     startGroup('ESLint Annotations');
