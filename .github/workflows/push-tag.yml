@@ -61,7 +61,7 @@ jobs:
           echo "::set-output name=body::${BODY}"
 
       - name: Create a release
-        uses: actions/create-release@v1
+        uses: actions/create-release@v1.1.4
         env:
           GITHUB_TOKEN: ${{ secrets.REPOSITORY_ACCESS_TOKEN }}
         with:
