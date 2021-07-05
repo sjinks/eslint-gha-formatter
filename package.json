@@ -29,7 +29,7 @@
   "devDependencies": {
     "@myrotvorets/eslint-config-myrotvorets-ts": "^2.2.5",
     "@types/eslint": "^7.2.9",
-    "@types/node": "^15.0.0",
+    "@types/node": "^16.0.0",
     "@typescript-eslint/eslint-plugin": "^4.14.2",
     "eslint": "^7.24.0",
     "eslint-plugin-import": "^2.22.1",
