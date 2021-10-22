@@ -2,10 +2,8 @@ import { writeFileSync } from 'fs';
 import { startGroup, endGroup } from '@actions/core';
 import { issueCommand } from '@actions/core/lib/command';
 import { ESLint, Linter } from 'eslint';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const stylish = require('eslint/lib/cli-engine/formatters/stylish') as ESLint.Formatter['format'];
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const json = require('eslint/lib/cli-engine/formatters/json') as ESLint.Formatter['format'];
+import stylish from 'eslint-formatter-stylish';
+import json from 'eslint-formatter-json';
 
 type SeverityMap = { [key in Linter.Severity]: string };
 
@@ -43,10 +41,12 @@ function hookStdout(
 
 const format: ESLint.Formatter['format'] = (results: ESLint.LintResult[], data?: ESLint.LintResultData): string => {
     if (process.env.GITHUB_ACTIONS !== 'true') {
+        // @ts-expect-error typings are broken, `stylish` does expects `results`.
         return stylish(results, data);
     }
 
     if (process.env.SONARSCANNER === 'true') {
+        // @ts-expect-error typings are broken, `json` does expects `results`.
         const result = json(results, data);
         if (process.env.GITHUB_WORKSPACE) {
             writeFileSync(`${process.env.GITHUB_WORKSPACE}/eslint-report.json`, result, { encoding: 'utf-8' });
