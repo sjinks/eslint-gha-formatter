@@ -25,17 +25,10 @@ jobs:
         uses: actions/setup-node@v2.5.0
         with:
           node-version: ${{ matrix.node }}
+          cache: npm
 
-      - name: Cache Node modules
-        uses: actions/cache@v2.1.7
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.node }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.node }}-
-            ${{ runner.os }}-build-${{ env.cache-name }}-
+      - name: Update npm
+        run: npm i -g npm
 
       - name: Install dependencies
         run: npm ci --ignore-scripts
