@@ -37,3 +37,6 @@ jobs:
 
       - name: Run postinstall scripts
         run: npm rebuild && npm run prepare --if-present
+
+      - name: Lint
+        run: npm run lint

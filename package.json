@@ -4,7 +4,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "lint": "eslint .",
+    "lint": "npm run build && eslint -f dist/index.js .",
     "pretest": "npm run lint",
     "prepare": "npm run build"
   },

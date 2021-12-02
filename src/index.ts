@@ -58,8 +58,8 @@ const format: ESLint.Formatter['format'] = (results: ESLint.LintResult[], data?:
 
     startGroup('ESLint Annotations');
 
-    let result = '';
-    const unhook = hookStdout((_orig, s, encoding, cb): boolean => {
+    var result = '';
+    let unhook = hookStdout((_orig, s, encoding, cb): boolean => {
         const callback = typeof encoding === 'function' ? encoding : cb;
 
         result += s.toString();
