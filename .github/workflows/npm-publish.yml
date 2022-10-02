@@ -11,6 +11,9 @@ on:
         description: Publish to NPM?
         required: true
 
+permissions:
+  contents: read
+
 jobs:
   prepare:
     name: Prepare the source code
