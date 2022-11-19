@@ -6,7 +6,8 @@
     "build": "tsc",
     "lint": "eslint .",
     "pretest": "npm run lint",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "test": "exit 0"
   },
   "keywords": [
     "eslint",

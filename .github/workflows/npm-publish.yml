@@ -18,7 +18,7 @@ jobs:
   prepare:
     name: Prepare the source code
     runs-on: ubuntu-latest
-    if: github.event_name == 'release' || github.event.inputs.npm == 'yes' || github.event.inputs.gpr == 'yes'
+    if: github.event_name == 'release' || github.event.inputs.npm == 'yes'
     steps:
       - name: Checkout source
         uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # tag=v3.1.0
@@ -30,6 +30,9 @@ jobs:
         with:
           node-version: lts/*
           cache: npm
+
+      - name: Update npm
+        run: npm i -g npm
 
       - name: Install dependencies
         run: npm ci --ignore-scripts
@@ -50,6 +53,8 @@ jobs:
           retention-days: 1
 
   publish:
+    permissions:
+      contents: none
     name: Publish package
     runs-on: ubuntu-latest
     needs: prepare
