@@ -47,7 +47,7 @@ jobs:
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - name: Create a release
-        uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # v0.1.15
+        uses: softprops/action-gh-release@20e085ccc73308c2c8e43ab8da4f8d7ecbb94d4e # v2.0.1
         with:
           generate_release_notes: true
         env:
