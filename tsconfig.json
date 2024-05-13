@@ -4,6 +4,7 @@
         "module": "NodeNext",
         "moduleResolution": "NodeNext",
         "outDir": "./dist",
+        "rootDirs": ["./src", "./test"],
         "sourceMap": true,
         "declaration": true,
         "strict": true,
@@ -17,6 +18,5 @@
         "esModuleInterop": true,
         "resolveJsonModule": true
     },
-    "include": ["src/**.ts"],
     "compileOnSave": true
 }
