@@ -1,7 +1,8 @@
 {
     "compilerOptions": {
-        "target": "es2019",
-        "module": "CommonJS",
+        "target": "ES2022",
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
         "outDir": "./dist",
         "sourceMap": true,
         "declaration": true,
@@ -9,7 +10,12 @@
         "noUnusedLocals": true,
         "noUnusedParameters": false,
         "noFallthroughCasesInSwitch": true,
-        "esModuleInterop": true
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "noImplicitOverride": true,
+        "noImplicitReturns": true,
+        "esModuleInterop": true,
+        "resolveJsonModule": true
     },
     "include": ["src/**.ts"],
     "compileOnSave": true
