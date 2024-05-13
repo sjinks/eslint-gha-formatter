@@ -2,14 +2,14 @@
   "name": "eslint-formatter-gha",
   "version": "1.4.3",
   "description": "ESLint formatter for GitHub Actions",
-  "main": "dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
   "scripts": {
     "build": "tsc",
     "lint": "eslint .",
     "pretest": "npm run lint",
-    "prepare": "npm run build",
-    "test": "exit 0"
+    "prepack": "npm run build",
+    "test": "tsx --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=node-reporter-gha --test-reporter-destination=stdout test/*.ts"
   },
   "keywords": [
     "eslint",
@@ -23,22 +23,23 @@
     "github"
   ],
   "files": [
-    "dist/index.js",
-    "dist/index.d.ts",
-    "dist/index.js.map"
+    "dist/src/*.js",
+    "dist/src/*.d.ts",
+    "dist/src/*.js.map"
   ],
   "author": "Volodymyr Kolesnykov <volodymyr@wildwolf.name> (https://wildwolf.name/)",
   "license": "MIT",
   "devDependencies": {
-    "@myrotvorets/eslint-config-myrotvorets-ts": "^2.22.6",
-    "@types/eslint": "^8.44.6",
-    "@types/node": ">= 16",
-    "typescript": "^5.2.2"
+    "@myrotvorets/eslint-config-myrotvorets-ts": "^2.26.0",
+    "@types/eslint": "^8.56.10",
+    "@types/node": "^20.12.11",
+    "node-reporter-gha": "^2.0.1",
+    "tsx": "^4.10.2",
+    "typescript": "^5.4.5"
   },
   "dependencies": {
-    "@actions/core": "^1.10.1",
-    "eslint-formatter-json": "^8.0.0",
-    "eslint-formatter-stylish": "^8.0.0"
+    "eslint-formatter-json": "^8.40.0",
+    "eslint-formatter-stylish": "^8.40.0"
   },
   "repository": {
     "type": "git",
