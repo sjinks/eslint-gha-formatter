@@ -32,7 +32,7 @@ const format: ESLint.Formatter['format'] = async (
         return result;
     }
 
-    return [
+    const commands = [
         issueCommand('group', {}, 'ESLint Annotations'),
         ...results.flatMap(({ filePath: file, messages }) =>
             messages.map(({ message, severity, line, column: col }) =>
@@ -40,7 +40,9 @@ const format: ESLint.Formatter['format'] = async (
             ),
         ),
         issueCommand('endgroup'),
-    ].join('');
+    ];
+
+    return commands.length > 2 ? commands.join('') : '';
 };
 
 export = format;
