@@ -31,7 +31,7 @@
   "devDependencies": {
     "@myrotvorets/eslint-config-myrotvorets-ts": "^2.26.0",
     "@types/eslint": "^9.0.0",
-    "@types/node": "^20.12.11",
+    "@types/node": "^22.0.0",
     "node-reporter-gha": "^2.0.1",
     "tsx": "^4.10.2",
     "typescript": "^5.4.5"
