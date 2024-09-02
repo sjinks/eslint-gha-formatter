@@ -1,5 +1,9 @@
 # ESLint Formatter for GitHub Actions
 
+[![Build and Test](https://github.com/sjinks/eslint-gha-formatter/actions/workflows/build.yml/badge.svg)](https://github.com/sjinks/eslint-gha-formatter/actions/workflows/build.yml)
+[![CodeQL](https://github.com/sjinks/eslint-gha-formatter/actions/workflows/codeql.yml/badge.svg)](https://github.com/sjinks/eslint-gha-formatter/actions/workflows/codeql.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=sjinks_eslint-gha-formatter&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=sjinks_eslint-gha-formatter)
+
 A custom formatter for ESLint that creates annotations for GitHub Actions.
 
 ## Installation
