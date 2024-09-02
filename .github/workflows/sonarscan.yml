@@ -1,0 +1,86 @@
+name: SonarCloud Analysis
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  NPM_CONFIG_FUND: '0'
+  NPM_CONFIG_AUDIT: '0'
+  SUPPRESS_SUPPORT: '1'
+  NO_UPDATE_NOTIFIER: 'true'
+  SONARSCANNER: 'true'
+
+jobs:
+  build:
+    name: SonarCloud Scan
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    if: |
+      github.event_name != 'pull_request' ||
+      github.event.pull_request.head.repo.full_name == github.event.pull_request.base.repo.full_name
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@5c7944e73c4c2a096b17a9cb74d65b6c2bbafbde # v2.9.1
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            api.github.com:443
+            github.com:443
+            npm.pkg.github.com:443
+            objects.githubusercontent.com:443
+            registry.npmjs.org:443
+            api.sonarcloud.io:443
+            analysis-sensorcache-eu-central-1-prod.s3.amazonaws.com:443
+            sc-cleancode-sensorcache-eu-central-1-prod.s3.amazonaws.com:443
+            scanner.sonarcloud.io:443
+            sonarcloud.io:443
+
+      - name: Check out the source code
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js environment
+        uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4.0.3
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm run test:sonarqube
+        continue-on-error: true
+
+      - name: Grab info
+        id: info
+        run: |
+          echo "packageName=$(jq -r .name package.json)" >> "${GITHUB_OUTPUT}"
+          echo "packageVersion=$(jq -r .version package.json)" >> "${GITHUB_OUTPUT}"
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@eb211723266fe8e83102bac7361f0a05c3ac1d1b # v3.0.0
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectName=${{ steps.info.outputs.packageName }}
+            -Dsonar.projectVersion=${{ steps.info.outputs.packageVersion }}
+            -Dsonar.links.homepage=${{ github.event.repository.homepage }}
+            -Dsonar.links.issue=${{ github.event.repository.html_url }}/issues
+            -Dsonar.links.scm=${{ github.repositoryUrl }}
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+            -Dsonar.testExecutionReportPaths=test-report.xml
