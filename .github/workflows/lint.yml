@@ -1,9 +1,11 @@
-name: Pre-release Testing
+name: Linting
 
 on:
   push:
-    tags:
-      - "*"
+    branches:
+      - master
+  pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -15,8 +17,8 @@ env:
   NO_UPDATE_NOTIFIER: 'true'
 
 jobs:
-  build:
-    name: Build and test
+  lint:
+    name: ESLint Check
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -42,15 +44,17 @@ jobs:
           node-version: lts/*
           cache: npm
 
-      - name: Install dependencies and run tests
-        run: npm cit
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
 
-  release:
-    name: Prepare the release
+      - name: Run ESLint
+        run: npm run lint
+
+  typecheck:
+    name: TypeScript Check
     runs-on: ubuntu-latest
-    needs: build
     permissions:
-      contents: write
+      contents: read
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@5c7944e73c4c2a096b17a9cb74d65b6c2bbafbde # v2.9.1
@@ -60,13 +64,21 @@ jobs:
           allowed-endpoints: >
             api.github.com:443
             github.com:443
+            objects.githubusercontent.com:443
+            nodejs.org:443
+            registry.npmjs.org:443
 
-      - name: Checkout
+      - name: Check out the code
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
 
-      - name: Create a release
-        uses: softprops/action-gh-release@c062e08bd532815e2082a85e87e3ef29c3e6d191 # v2.0.8
+      - name: Set up Node.js environment
+        uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4.0.3
         with:
-          generate_release_notes: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.REPOSITORY_ACCESS_TOKEN }}
+          node-version: lts/*
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Run tsc
+        run: npm run typecheck

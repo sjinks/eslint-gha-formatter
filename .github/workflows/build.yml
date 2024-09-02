@@ -3,11 +3,18 @@ name: Build and Test
 on:
   push:
     branches:
-      - '**'
+      - master
+  pull_request:
   workflow_dispatch:
 
 permissions:
   contents: read
+
+env:
+  NPM_CONFIG_FUND: '0'
+  NPM_CONFIG_AUDIT: '0'
+  SUPPRESS_SUPPORT: '1'
+  NO_UPDATE_NOTIFIER: 'true'
 
 jobs:
   build:
@@ -16,6 +23,7 @@ jobs:
     permissions:
       contents: read
     strategy:
+      fail-fast: false
       matrix:
         node:
           - name: LTS
@@ -25,6 +33,18 @@ jobs:
           - name: Current
             version: node
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@5c7944e73c4c2a096b17a9cb74d65b6c2bbafbde # v2.9.1
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            api.github.com:443
+            github.com:443
+            objects.githubusercontent.com:443
+            nodejs.org:443
+            registry.npmjs.org:443
+
       - name: Check out the code
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
 
@@ -35,31 +55,50 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm ci --ignore-scripts
-
-      - name: Run postinstall scripts
-        run: npm rebuild && npm run prepare --if-present
+        run: npm ci
 
       - name: Run tests
         run: npm test
 
-  dogfooding:
-    name: Dogfooding
+  dogfood:
+    name: 'Dogfooding (Node: ${{ matrix.node.name }})'
     runs-on: ubuntu-latest
     permissions:
       contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        node:
+          - name: LTS
+            version: lts/*
+          - name: Previous LTS
+            version: lts/-1
+          - name: Current
+            version: node
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@5c7944e73c4c2a096b17a9cb74d65b6c2bbafbde # v2.9.1
+        with:
+          disable-sudo: true
+          egress-policy: block
+          allowed-endpoints: >
+            api.github.com:443
+            github.com:443
+            objects.githubusercontent.com:443
+            nodejs.org:443
+            registry.npmjs.org:443
+
       - name: Check out the code
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
 
       - name: Set up Node.js environment
         uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4.0.3
         with:
-          node-version: lts/*
+          node-version: ${{ matrix.node.version }}
           cache: npm
 
       - name: Install dependencies
-        run: npm ci --ignore-scripts
+        run: npm ci
 
       - name: Build
         run: npm run build

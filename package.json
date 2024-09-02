@@ -7,6 +7,7 @@
   "scripts": {
     "build": "tsc",
     "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
     "prepack": "npm run build",
     "test": "node --require=ts-node/register/transpile-only --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=node-reporter-gha --test-reporter-destination=stdout test/*.ts"
   },
