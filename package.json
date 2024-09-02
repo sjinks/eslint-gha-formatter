@@ -8,7 +8,7 @@
     "build": "tsc",
     "lint": "eslint .",
     "prepack": "npm run build",
-    "test": "tsx --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=node-reporter-gha --test-reporter-destination=stdout test/*.ts"
+    "test": "node --require=ts-node/register/transpile-only --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=node-reporter-gha --test-reporter-destination=stdout test/*.ts"
   },
   "keywords": [
     "eslint",
@@ -33,7 +33,7 @@
     "@types/eslint": "^9.0.0",
     "@types/node": "^22.0.0",
     "node-reporter-gha": "^2.0.1",
-    "tsx": "^4.10.2",
+    "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   },
   "dependencies": {
