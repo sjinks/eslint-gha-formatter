@@ -1,6 +1,6 @@
 {
   "name": "eslint-formatter-gha",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "ESLint formatter for GitHub Actions",
   "main": "dist/src/index.js",
   "types": "./dist/src/index.d.ts",
