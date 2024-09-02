@@ -1,0 +1,5 @@
+{
+    "extension": [".ts"],
+    "exclude": ["test/**"],
+    "reporter": ["text", "lcov"]
+}
