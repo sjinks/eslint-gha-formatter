@@ -4,7 +4,7 @@ import stylish from 'eslint-formatter-stylish';
 import json from 'eslint-formatter-json';
 import { issueCommand } from './command';
 
-type SeverityMap = { [key in Linter.Severity]: string };
+type SeverityMap = Record<Linter.Severity, string>;
 
 const severities: SeverityMap = {
     0: 'debug',
