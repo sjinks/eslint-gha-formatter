@@ -36,6 +36,7 @@ jobs:
           egress-policy: block
           allowed-endpoints: >
             api.github.com:443
+            binaries.sonarsource.com:443
             github.com:443
             npm.pkg.github.com:443
             objects.githubusercontent.com:443
@@ -71,7 +72,7 @@ jobs:
           echo "packageVersion=$(jq -r .version package.json)" >> "${GITHUB_OUTPUT}"
 
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@383f7e52eae3ab0510c3cb0e7d9d150bbaeab838 # v3.1.0
+        uses: SonarSource/sonarqube-scan-action@1b442ee39ac3fa7c2acdd410208dcb2bcfaae6c4 # v4.1.0
         env:
           GITHUB_TOKEN: ${{ github.token }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
