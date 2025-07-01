@@ -24,16 +24,16 @@ const format: ESLint.Formatter['format'] = async (
 
     if (process.env['SONARSCANNER'] === 'true') {
         // @ts-expect-error typings are broken, `json` does expect `results`.
-        const result = json(results, data);
+        let result = json(results, data);
         if (process.env['GITHUB_WORKSPACE']) {
-            await writeFile(`${process.env['GITHUB_WORKSPACE']}/eslint-report.json`, result, { encoding: 'utf-8' });
+            writeFile(`${process.env['GITHUB_WORKSPACE']}/eslint-report.json`, result, { encoding: 'utf-8' });
             return '';
         }
 
         return result;
     }
 
-    const commands = [
+    var commands = [
         issueCommand('group', {}, 'ESLint Annotations'),
         ...results.flatMap(({ filePath: file, messages }) =>
             messages.map(({ message, severity, line, column: col, ruleId }) =>
