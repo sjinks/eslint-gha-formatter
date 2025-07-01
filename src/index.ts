@@ -3,6 +3,7 @@ import type { ESLint, Linter } from 'eslint';
 import stylish from 'eslint-formatter-stylish';
 import json from 'eslint-formatter-json';
 import { issueCommand } from './command';
+import { formatMessage } from './utils';
 
 type SeverityMap = Record<Linter.Severity, string>;
 
@@ -35,10 +36,9 @@ const format: ESLint.Formatter['format'] = async (
     const commands = [
         issueCommand('group', {}, 'ESLint Annotations'),
         ...results.flatMap(({ filePath: file, messages }) =>
-            messages.map(({ message, severity, line, column: col, ruleId }) => {
-                const msg = ruleId ? `${message} (${ruleId})` : message;
-                return issueCommand(severities[severity], { file, line, col }, msg);
-            }),
+            messages.map(({ message, severity, line, column: col, ruleId }) =>
+                issueCommand(severities[severity], { file, line, col }, formatMessage(message, ruleId)),
+            ),
         ),
         issueCommand('endgroup'),
     ];
