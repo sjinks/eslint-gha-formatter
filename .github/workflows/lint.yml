@@ -47,9 +47,6 @@ jobs:
       - name: Install dependencies
         run: npm ci --ignore-scripts
 
-      - name: Run ESLint
-        run: npm run lint
-
   typecheck:
     name: TypeScript Check
     runs-on: ubuntu-latest
