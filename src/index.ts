@@ -35,9 +35,10 @@ const format: ESLint.Formatter['format'] = async (
     const commands = [
         issueCommand('group', {}, 'ESLint Annotations'),
         ...results.flatMap(({ filePath: file, messages }) =>
-            messages.map(({ message, severity, line, column: col }) =>
-                issueCommand(severities[severity], { file, line, col }, message),
-            ),
+            messages.map(({ message, severity, line, column: col, ruleId }) => {
+                const msg = ruleId ? `${message} (${ruleId})` : message;
+                return issueCommand(severities[severity], { file, line, col }, msg);
+            }),
         ),
         issueCommand('endgroup'),
     ];
