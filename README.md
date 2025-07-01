@@ -25,4 +25,6 @@ Otherwise, it invokes ESLint's `stylish` formatter.
 
 ## Sample Output
 
-![Inline Annotations](https://github.com/sjinks/eslint-gha-formatter/assets/7810770/2909a88f-4a87-4606-b8f0-9fdbdd14e0d6)
+![Inline annotations](https://github.com/user-attachments/assets/4e320821-5b0a-463a-a3cd-fd31420a1360)
+
+![Annotations in summary](https://github.com/user-attachments/assets/eccbbaa7-6c54-43e0-acf9-64bab77390d5)
