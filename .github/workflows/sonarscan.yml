@@ -83,5 +83,5 @@ jobs:
             -Dsonar.links.homepage=${{ github.event.repository.homepage }}
             -Dsonar.links.issue=${{ github.event.repository.html_url }}/issues
             -Dsonar.links.scm=${{ github.repositoryUrl }}
-            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+            -Dsonar.javascript.lcov.reportPaths=lcov.info
             -Dsonar.testExecutionReportPaths=test-report.xml
