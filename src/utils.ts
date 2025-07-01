@@ -10,3 +10,5 @@ const replacer = (match: string): string => map[match]!;
 
 export const escapeData = (s: unknown): string => String(s).replace(/[%\r\n]/gu, replacer);
 export const escapeProperty = (s: unknown): string => String(s).replace(/[%\r\n:,]/gu, replacer);
+export const formatMessage = (message: string, ruleId: string | null | undefined): string =>
+    ruleId ? `${message} (${ruleId})` : message;
