@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "eslint-formatter-json": "^8.40.0",
-    "eslint-formatter-stylish": "^8.40.0"
+    "eslint-formatter-stylish": "^9.0.0"
   },
   "repository": {
     "type": "git",
