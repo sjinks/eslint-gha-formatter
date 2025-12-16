@@ -41,7 +41,7 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "eslint-formatter-json": "^8.40.0",
+    "eslint-formatter-json": "^9.0.0",
     "eslint-formatter-stylish": "^9.0.0"
   },
   "repository": {
