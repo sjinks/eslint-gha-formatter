@@ -38,6 +38,8 @@ jobs:
             api.github.com:443
             binaries.sonarsource.com:443
             github.com:443
+            keyserver.ubuntu.com:443
+            keys.openpgp.org:443
             npm.pkg.github.com:443
             objects.githubusercontent.com:443
             registry.npmjs.org:443
