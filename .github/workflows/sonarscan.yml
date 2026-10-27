@@ -74,7 +74,7 @@ jobs:
           echo "packageVersion=$(jq -r .version package.json)" >> "${GITHUB_OUTPUT}"
 
       - name: SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@713881670b6b3676cda39549040e2d88c70d582e # v8.2.0
+        uses: SonarSource/sonarqube-scan-action@4d1dc0c91ee400dcf8a6dddf2f705ac36542e304 # v8.4.0
         env:
           GITHUB_TOKEN: ${{ github.token }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
