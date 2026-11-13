@@ -38,7 +38,7 @@
     "node-reporter-gha": "^2.0.5",
     "node-reporter-sonarqube": "^1.0.2",
     "tsx": "^4.23.0",
-    "typescript": "^6.0.0"
+    "typescript": "^7.0.0"
   },
   "dependencies": {
     "eslint-formatter-json": "^9.0.0",
